@@ -7,8 +7,11 @@ section
 2.เช็คเงื่อนไขเพื่อหาวิธีการจัดสลาก
 '''
 
+############ เปลี่ยน config path ด้วย ############
+configPath = 'D:/Boatproject/python-project/'##
+###############################################
+
 #read config
-configPath = 'D:/Boatproject/python-project/' #******** เปลี่ยน config path ด้วย ********
 config = configparser.ConfigParser()
 #config.read(configPath+'config_test.ini') #config for test
 config.read(configPath+'config.ini')
@@ -74,21 +77,23 @@ else :
         for i in range(set):
             arraySet.append(i+1)
             
-        #funtion progress bar
+        #funtion progress bar #####################################################################
         def progress_bar(current, total, bar_length=50):
             progress = int(bar_length * current / total)
             bar = '#' * progress + '_' * (bar_length - progress)
             print(f"\r|{bar}| {current}/{total}", end='', flush=True)
+        ###########################################################################################
         
-        #funtion insert data   
+        #funtion insert data ######################################################################  
         def insertData(set,book,pattern,i) :    
             vSet = str(arraySet[set]).zfill(2)
             vBook = str(book).zfill(4)
             vPattern = numPattern[pattern]
             arr = [vTypes, vYear, vLotdateId, vSet, vBook, vPattern]
             return arr
+        ###########################################################################################
           
-        #เช็คเงื่อนไขเพื่อหาวิธีการจัดสลาก  
+        ####################### เช็คเงื่อนไขเพื่อหาวิธีการจัดสลาก #######################
         #เศษ 0
         if remainder == 0 : #25 set
             for i in range(loopBook) : #250000 เล่ม        
@@ -98,7 +103,7 @@ else :
                     pattern = 0
                     if (numBook == maxBook1) : #เช็คว่าเป็นเล่มสุดท้าย
                         numBook = 0
-                        arraySet = arraySet[5:] 
+                        arraySet = arraySet[5:] #จัดสลาก 5 ชุดถัดไป
                     else :
                         numBook += 1                    
                 else :
@@ -110,21 +115,21 @@ else :
         #เศษ 1                
         elif remainder == 1 : #21 set
             #print('เศษ 1')
-            job2 = loopBook - remainderRow
-            job1 = job2 - (5 * vlpBook)
-            numBook2 = startBook5
-            numBook3 = startBook3
-            numBook4 = startBook1
+            job2 = loopBook - remainderRow #loop ที่ 2
+            job1 = job2 - (5 * vlpBook) #loop ที่ 1
+            numBook2 = startBook5 #ค่าเริ่มต้นของเล่ม (เล่มที่ 5000)
+            numBook3 = startBook3 #ค่าเริ่มต้นของเล่ม (เล่มที่ 7000)
+            numBook4 = startBook1 #ค่าเริ่มต้นของเล่ม (เล่มที่ 9000)
             
             #step1 จัดสลาก lot แรกก่อน เช่น ถ้าใส่ชุด 21 ชุด จะจัดสลากที่15ชุดก่อน
             for i in range(job1) :
-                if (pattern == 4) :
+                if (pattern == 4) : #เช็คว่าเป็นpatternสุดท้าย
                     arrData.append(insertData(numSet,numBook,pattern,i))
                     numSet = 0
                     pattern = 0
-                    if (numBook == maxBook1) :
+                    if (numBook == maxBook1) : #เช็คว่าเป็นเล่มสุดท้าย
                         numBook = 0
-                        arraySet = arraySet[5:] 
+                        arraySet = arraySet[5:] #จัดสลาก 5 ชุดถัดไป 
                     else :
                         numBook += 1                    
                 else :
@@ -134,17 +139,17 @@ else :
                 progress_bar(i+1, loopBook)
                         
             #step2 จัดสลาก lot 2 เช่น ถ้าใส่ชุด 21 ชุด จะจัดสลากที่15ชุดแรกแล้ว จัดอีก5ชุดหลังต่อ
-            numSet = 0
-            pattern = 0
+            numSet = 0 #คุมชุด
+            pattern = 0 #คุม pattern
             numFinalSet = 4 #ค่าเริ่มต้นเพื่อเพิ่มชุดสุดท้าย pattern 5  
             numFinalBook = 0 #ค่าเริ่มต้นเล่ม ของชุดสุดท้าย pattern 5   
             for i in range(job1,job2) :
-                if (pattern == 4) :
+                if (pattern == 4) : #เช็คว่าเป็นpatternสุดท้าย
                     arrData.append(insertData(numFinalSet,numFinalBook,pattern,i))
                     numSet = 0  
                     pattern = 0                  
                     numBook += 1
-                    if (numFinalBook == maxBook4) :
+                    if (numFinalBook == maxBook4) :  #เช็คว่าเป็นเล่มสุดท้าย
                         numFinalBook = 0 #setค่าเริ่มต้น
                         numFinalSet += 1 #เปลี่ยน set เล่มที่ 5
                     else :
@@ -183,7 +188,7 @@ else :
                     arrData.append(insertData(numFinalSet,numBook4,pattern,i))
                     numSet = 0  
                     pattern = 0
-                    if (numBook4 == maxBook1) :
+                    if (numBook4 == maxBook1) : #เช็คว่าเป็นเล่มสุดท้าย
                         numBook4 = startBook1 #setค่าเริ่มต้น
                         numFinalSet += 1 #เปลี่ยน set เล่มที่ 5
                     else :
@@ -198,13 +203,13 @@ else :
             numBook3 = startBook6
             numBook4 = startBook2 #setค่าเริ่มต้น 8000
             for i in range(job1) :        
-                if (pattern == 4) :
+                if (pattern == 4) : #เช็คว่าเป็นpatternสุดท้าย
                     arrData.append(insertData(numSet,numBook,pattern,i))
                     numSet = 0
                     pattern = 0
-                    if (numBook == maxBook1) :
+                    if (numBook == maxBook1) : #เช็คว่าเป็นเล่มสุดท้าย
                         numBook = 0
-                        arraySet = arraySet[5:] 
+                        arraySet = arraySet[5:] #จัดสลาก 5 ชุดถัดไป
                     else :
                         numBook += 1                    
                 else :
@@ -240,8 +245,8 @@ else :
                     arrData.append(insertData(numFinalSet,numBook4,pattern,i))
                     numSet = 0  
                     pattern = 0
-                    if (numBook4 == maxBook1) :
-                        numBook4 = startBook2 #setค่าเริ่มต้น 8000
+                    if (numBook4 == maxBook1) : #เช็คว่าเป็นเล่มสุดท้าย
+                        numBook4 = startBook2 #setค่าเริ่มต้นของเล่ม (8000)
                         numFinalSet += 1 #เปลี่ยน set เล่มที่ 5
                     else :
                         numBook4 += 1 
@@ -257,13 +262,13 @@ else :
             
             #step1 จัดสลาก lot แรกก่อน เช่น ถ้าใส่ชุด 23 ชุด จะจัดสลากที่ 15 ชุดก่อน
             for i in range(job1) :
-                if (pattern == 4) :
+                if (pattern == 4) : #เช็คว่าเป็นpatternสุดท้าย
                     arrData.append(insertData(numSet,numBook,pattern,i))
                     numSet = 0
                     pattern = 0
-                    if (numBook == maxBook1) :
+                    if (numBook == maxBook1) : #เช็คว่าเป็นเล่มสุดท้าย
                         numBook = 0
-                        arraySet = arraySet[5:] 
+                        arraySet = arraySet[5:] #จัดสลาก 5 ชุดถัดไป
                     else :
                         numBook += 1                    
                 else :
@@ -278,12 +283,12 @@ else :
             numFinalSet = 4 #ค่าเริ่มต้นเพื่อเพิ่มชุดสุดท้าย pattern 5  
             numFinalBook = 0 #ค่าเริ่มต้นเล่ม ของชุดสุดท้าย pattern 5   
             for i in range(job1,job2) :
-                if (pattern == 4):
+                if (pattern == 4): #เช็คว่าเป็นpatternสุดท้าย
                     arrData.append(insertData(numFinalSet,numFinalBook,pattern,i))
                     numSet = 0  
                     pattern = 0                  
                     numBook += 1
-                    if ((numFinalBook == maxBook5) or ((numFinalSet == 6) and (numFinalBook == maxBook8))):
+                    if ((numFinalBook == maxBook5) or ((numFinalSet == 6) and (numFinalBook == maxBook8))):  #เช็คว่าเป็นเล่มสุดท้าย
                         numFinalBook = 0 #setค่าเริ่มต้น
                         numFinalSet += 1 #เปลี่ยน set เล่มที่ 5
                     else :
@@ -321,8 +326,8 @@ else :
                     arrData.append(insertData(numFinalSet,numBook3,pattern,i))
                     numSet = 0  
                     pattern = 0
-                    if (numBook3 == maxBook5) :
-                        numBook3 = startBook9 #setค่าเริ่มต้น
+                    if (numBook3 == maxBook5) : #เช็คว่าเป็นเล่มสุดท้าย
+                        numBook3 = startBook9 #setค่าเริ่มต้น 1000
                         numFinalSet += 1 #เปลี่ยน set เล่มที่ 5
                     else :
                         numBook3 += 1 
@@ -335,11 +340,11 @@ else :
             job1 = loopBook - remainderRow
             numBook2 = startBook2 #setค่าเริ่มต้น 8000
             for i in range(job1) :
-                if (pattern == 4) :
+                if (pattern == 4) : #เช็คว่าเป็นpatternสุดท้าย
                     arrData.append(insertData(numSet,numBook,pattern,i))
                     numSet = 0
                     pattern = 0
-                    if (numBook == maxBook1) :
+                    if (numBook == maxBook1) : #เช็คว่าเป็นเล่มสุดท้าย
                         numBook = 0
                         arraySet = arraySet[5:] 
                     else :
@@ -353,12 +358,12 @@ else :
             #step2 จัดสลากชุดที่เหลืออีก 4 ชุด
             numFinalSet = 0 #ค่าเริ่มต้นเพื่อเพิ่มชุดสุดท้าย pattern 5    
             for i in range(job1,loopBook) :
-                if (pattern == 4) :
+                if (pattern == 4) : #เช็คว่าเป็นpatternสุดท้าย
                     arrData.append(insertData(numFinalSet,numBook2,pattern,i))
                     numSet = 0  
                     pattern = 0                  
                     numBook += 1
-                    if (numBook2 == maxBook1) :
+                    if (numBook2 == maxBook1) : #เช็คว่าเป็นเล่มสุดท้าย
                         numBook2 = startBook2 #setค่าเริ่มต้น 8000
                         numFinalSet += 1 #เปลี่ยน set เล่มที่ 5
                     else :
