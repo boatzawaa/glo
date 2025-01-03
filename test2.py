@@ -7,9 +7,8 @@ from openpyxl import Workbook
 #read config
 configPath = 'D:/Boatproject/python-project/'
 config = configparser.ConfigParser()
-#config.read("config_test.ini") #config for test
+#config.read(configPath+'config_test.ini') #config for test
 config.read(configPath+'config.ini')
-#config.read('config.ini')
 set = int(config['input']['set'])
 numPattern = [config["input"]["pattern1"],config["input"]["pattern2"],config["input"]["pattern3"],config["input"]["pattern4"],config["input"]["pattern5"]]
 
