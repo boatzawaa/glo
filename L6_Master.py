@@ -36,7 +36,7 @@ else :
     else :  
         print('start process!!') 
         #set default ##############################################################################
-        path = config['default']['path'] #default path
+        path = config['default']['excelPath'] #default path
         vTypes = str(config['default']['vTypes']) #default vTypes
         vYear = str(config['default']['vYear']) #default vYear
         vLotdateId = str(config['default']['vLotdateId']) #default vLotdateId
