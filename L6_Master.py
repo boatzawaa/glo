@@ -96,7 +96,7 @@ else :
         ####################### เช็คเงื่อนไขเพื่อหาวิธีการจัดสลาก #######################
         #เศษ 0
         if remainder == 0 : #25 set
-            for i in range(loopBook) : #250000 เล่ม        
+            for i in range(loopBook) : # 250000 เล่ม        
                 if (pattern == 4): #เช็คว่าเป็นpatternสุดท้าย
                     arrData.append(insertData(numSet,numBook,pattern,i))
                     numSet = 0
@@ -115,14 +115,14 @@ else :
         #เศษ 1                
         elif remainder == 1 : #21 set
             #print('เศษ 1')
-            job2 = loopBook - remainderRow #loop ที่ 2
-            job1 = job2 - (5 * vlpBook) #loop ที่ 1
+            job2 = loopBook - remainderRow #loop ที่ 2 210000 - 10000 = 200000
+            job1 = job2 - (5 * vlpBook) #loop ที่ 1 200000 - 50000 = 150000
             numBook2 = startBook5 #ค่าเริ่มต้นของเล่ม (เล่มที่ 5000)
             numBook3 = startBook3 #ค่าเริ่มต้นของเล่ม (เล่มที่ 7000)
             numBook4 = startBook1 #ค่าเริ่มต้นของเล่ม (เล่มที่ 9000)
             
             #step1 จัดสลาก lot แรกก่อน เช่น ถ้าใส่ชุด 21 ชุด จะจัดสลากที่15ชุดก่อน
-            for i in range(job1) :
+            for i in range(job1) : # 150000 เล่ม 
                 if (pattern == 4) : #เช็คว่าเป็นpatternสุดท้าย
                     arrData.append(insertData(numSet,numBook,pattern,i))
                     numSet = 0
@@ -143,7 +143,7 @@ else :
             pattern = 0 #คุม pattern
             numFinalSet = 4 #ค่าเริ่มต้นเพื่อเพิ่มชุดสุดท้าย pattern 5  
             numFinalBook = 0 #ค่าเริ่มต้นเล่ม ของชุดสุดท้าย pattern 5   
-            for i in range(job1,job2) :
+            for i in range(job1,job2) : # เริ่ม 150000 ถึง 200000 = 50000 เล่ม 
                 if (pattern == 4) : #เช็คว่าเป็นpatternสุดท้าย
                     arrData.append(insertData(numFinalSet,numFinalBook,pattern,i))
                     numSet = 0  
@@ -165,7 +165,7 @@ else :
             pattern = 0
             arraySet = arraySet[4:]
             numFinalSet = 0 #ค่าเริ่มต้นเพื่อเพิ่มชุดสุดท้าย pattern 5 
-            for i in range(job2,loopBook) :
+            for i in range(job2,loopBook) : # เริ่ม 200000 ถึง 210000 = 10000 เล่ม
                 if (pattern == 0) :
                     arrData.append(insertData(numSet,numBook2,pattern,i))
                     numSet += 1
@@ -198,11 +198,11 @@ else :
         #เศษ 2
         elif remainder == 2 : #22 set
             #print('เศษ 2')
-            #step1 จัดสลาก lot แรกก่อน เช่น ถ้าใส่ชุด 22 ชุด จะจัดสลากที่ 20 ชุดก่อน
-            job1 = loopBook - remainderRow
-            numBook3 = startBook6
+            job1 = loopBook - remainderRow #loop ที่ 1 220000 - 20000 = 150000
+            numBook3 = startBook6 #setค่าเริ่มต้น 4000
             numBook4 = startBook2 #setค่าเริ่มต้น 8000
-            for i in range(job1) :        
+            #step1 จัดสลาก lot แรกก่อน เช่น ถ้าใส่ชุด 22 ชุด จะจัดสลากที่ 20 ชุดก่อน
+            for i in range(job1) : # 200000 เล่ม         
                 if (pattern == 4) : #เช็คว่าเป็นpatternสุดท้าย
                     arrData.append(insertData(numSet,numBook,pattern,i))
                     numSet = 0
@@ -222,7 +222,7 @@ else :
             numSet = 0
             pattern = 0
             numFinalSet = 0 #ค่าเริ่มต้นเพื่อเพิ่มชุดสุดท้าย pattern 5 
-            for i in range(job1,loopBook) :
+            for i in range(job1,loopBook) : # เริ่ม 200000 ถึง 220000 = 20000 เล่ม
                 if (pattern == 0) :
                     arrData.append(insertData(numSet,numBook,pattern,i))
                     numSet += 1
@@ -255,13 +255,13 @@ else :
         #เศษ 3   
         elif remainder == 3 : #23 set
             #print('เศษ 3')
-            job2 = loopBook - remainderRow #
-            job1 = job2 - (5 * vlpBook)
-            numBook2 = startBook6
-            numBook3 = startBook9
+            job2 = loopBook - remainderRow #loop ที่ 2 230000 - 30000 = 200000
+            job1 = job2 - (5 * vlpBook) #loop ที่ 1 200000 - 50000 = 150000
+            numBook2 = startBook6 #setค่าเริ่มต้นของเล่ม (4000)
+            numBook3 = startBook9 #setค่าเริ่มต้นของเล่ม (1000)
             
             #step1 จัดสลาก lot แรกก่อน เช่น ถ้าใส่ชุด 23 ชุด จะจัดสลากที่ 15 ชุดก่อน
-            for i in range(job1) :
+            for i in range(job1) : # 150000 เล่ม 
                 if (pattern == 4) : #เช็คว่าเป็นpatternสุดท้าย
                     arrData.append(insertData(numSet,numBook,pattern,i))
                     numSet = 0
@@ -282,7 +282,7 @@ else :
             pattern = 0
             numFinalSet = 4 #ค่าเริ่มต้นเพื่อเพิ่มชุดสุดท้าย pattern 5  
             numFinalBook = 0 #ค่าเริ่มต้นเล่ม ของชุดสุดท้าย pattern 5   
-            for i in range(job1,job2) :
+            for i in range(job1,job2) : # เริ่ม 150000 ถึง 200000 = 50000 เล่ม 
                 if (pattern == 4): #เช็คว่าเป็นpatternสุดท้าย
                     arrData.append(insertData(numFinalSet,numFinalBook,pattern,i))
                     numSet = 0  
@@ -304,7 +304,7 @@ else :
             pattern = 0
             arraySet = arraySet[4:]
             numFinalSet = 2 #ค่าเริ่มต้นเพื่อเพิ่มชุดสุดท้าย pattern 5 
-            for i in range(job2,loopBook) :
+            for i in range(job2,loopBook) : # เริ่ม 200000 ถึง 230000 = 30000 เล่ม 
                 if (pattern == 0) :
                     arrData.append(insertData(numSet,numBook2,pattern,i))
                     numSet += 1
@@ -337,16 +337,16 @@ else :
         elif remainder == 4 : #24 set
             #print('เศษ 4')
             #step1 จัดสลาก lot แรกก่อน เช่น ถ้าใส่ชุด 24 ชุด จะจัดสลากที่ 20 ชุดก่อน
-            job1 = loopBook - remainderRow
+            job1 = loopBook - remainderRow #loop ที่ 1 240000 - 40000 = 200000
             numBook2 = startBook2 #setค่าเริ่มต้น 8000
-            for i in range(job1) :
+            for i in range(job1) : # 200000 เล่ม 
                 if (pattern == 4) : #เช็คว่าเป็นpatternสุดท้าย
                     arrData.append(insertData(numSet,numBook,pattern,i))
                     numSet = 0
                     pattern = 0
                     if (numBook == maxBook1) : #เช็คว่าเป็นเล่มสุดท้าย
                         numBook = 0
-                        arraySet = arraySet[5:] 
+                        arraySet = arraySet[5:] #จัดสลาก 5 ชุดถัดไป 
                     else :
                         numBook += 1                    
                 else :
@@ -357,7 +357,7 @@ else :
             
             #step2 จัดสลากชุดที่เหลืออีก 4 ชุด
             numFinalSet = 0 #ค่าเริ่มต้นเพื่อเพิ่มชุดสุดท้าย pattern 5    
-            for i in range(job1,loopBook) :
+            for i in range(job1,loopBook) : # เริ่ม 200000 ถึง 240000 = 40000 เล่ม 
                 if (pattern == 4) : #เช็คว่าเป็นpatternสุดท้าย
                     arrData.append(insertData(numFinalSet,numBook2,pattern,i))
                     numSet = 0  
