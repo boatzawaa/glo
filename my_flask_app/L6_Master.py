@@ -27,11 +27,11 @@ def backendProcess(patterns,set_value,charity,lot,year) :
     #validate config
     #เช็ค pattern 1 และ 2 ต้องตรงกัน
     if numPattern[0] != numPattern[1]:
-        response = ['danger','จัดสลากไม่ถูกต้อง : กรุณาใส่ Pattern1 และ Pattern2 ให้ตรงกัน']
+        response = ['Error','จัดสลากไม่ถูกต้อง : กรุณาใส่ Pattern1 และ Pattern2 ให้ตรงกัน']
         print('Error : กรุณาใส่ Pattern1 และ Pattern2 ให้ตรงกัน')
     #เช็คทุก pattern ต้องไม่ซ้ำกัน ยกเว้น1และ2
     elif (numPattern[2] == numPattern[4]) or (numPattern[3] == numPattern[4] or (numPattern[2] == numPattern[1]) or (numPattern[3] == numPattern[1]) or (numPattern[4] == numPattern[1])):
-        response = ['danger','จัดสลากไม่ถูกต้อง : มี Pattern ซ้ำ กรุณาแก้ไขให้ถูกต้อง']
+        response = ['Error','จัดสลากไม่ถูกต้อง : มี Pattern ซ้ำ กรุณาแก้ไขให้ถูกต้อง']
         print('Error : มี Pattern ซ้ำ กรุณาแก้ไขให้ถูกต้อง')
     else :        
         #set default ##############################################################################
@@ -411,22 +411,22 @@ def backendProcess(patterns,set_value,charity,lot,year) :
             for row in arrData :
                 ws.append(row)
             wb.save(path+'L6_'+str(set+charitySet)+'k.xlsx')
-            response = ['success','จัดสลากสำเร็จ!  : '+path+'L6_'+str(set+charitySet)+'k.xlsx']
+            response = ['Success','จัดสลากสำเร็จ! : ชื่อและที่อยู่ของไฟล์ : '+path+'L6_'+str(set+charitySet)+'k.xlsx']
             print("File written successfully!")
 
         except FileNotFoundError as e:
             # กรณีที่ไฟล์หรือไดเรกทอรีไม่พบ
-            response = ['danger',f"File not found error: {e}"]
+            response = ['Error',f"File not found error: {e}"]
             print(f"พบปัญหาในการเขียนไฟล์ : File not found error: {e}")
 
         except IOError as e:
             # จับข้อผิดพลาด I/O (เช่น การเขียนไฟล์ไม่ได้)
-            response = ['danger',f"พบปัญหาในการเขียนไฟล์ : IO error: {e}"]
+            response = ['Error',f"พบปัญหาในการเขียนไฟล์ : IO error: {e}"]
             print(f"IO error: {e}")
 
         except Exception as e:
             # ข้อผิดพลาดอื่น ๆ ที่ไม่ได้คาดไว้
-            response = ['danger',f"พบปัญหาในการเขียนไฟล์ : Unexpected error: {e}"]
+            response = ['Error',f"พบปัญหาในการเขียนไฟล์ : Unexpected error: {e}"]
             print(f"Unexpected error: {e}")             
         
     return response
