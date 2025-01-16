@@ -28,10 +28,11 @@
     <div class="container mt-4">
         <!-- ส่วนแบนเนอร์ -->
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-6">
                 <div class="text-center">
-                    <!-- รูปภาพแบนเนอร์ -->
-                    <img src="/static/glo2.jpeg" alt="Banner" class="img-fluid rounded shadow">
+                    <!-- รูปภาพแบนเนอร์ 
+                    <img src="/static/glo2.jpeg" alt="Banner" class="img-fluid rounded shadow">-->
+                    <img src="/static/glo2.jpeg" alt="Banner" class="img-fluid">
                 </div>
             </div>
         </div>
@@ -164,7 +165,7 @@
             const charity = document.getElementById('charity').value;
             const lot = document.getElementById('lot').value;
             const year = document.getElementById('year').value;
-            
+            /*
             // แสดง SweetAlert2 พร้อม spinner
             Swal.fire({
                 title: 'กำลังประมวลผล...',
@@ -215,7 +216,86 @@
                     icon: 'error',
                     confirmButtonText: 'OK'
                 });
+            }*/
+            // แสดง SweetAlert เพื่อยืนยัน
+            const result = await Swal.fire({
+                title: 'จัดสลาก L6',
+                text: 'คุณต้องการจัดสลาก L6 และ ดาวน์โหลดไฟล์ ใช่หรือไม่?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'ใช่',
+                cancelButtonText: 'ยกเลิก'
+            });            
+
+            if (result.isConfirmed) {
+                // แสดง SweetAlert2 พร้อม spinner
+                Swal.fire({
+                    title: 'กำลังประมวลผล...',
+                    text: 'กรุณารอซักครู่ ระบบกำลังจัดสลากให้คุณ.',
+                    allowOutsideClick: false, // ป้องกันการปิดด้วยการคลิกรอบๆ
+                    didOpen: () => {
+                        Swal.showLoading(); // แสดง loading spinner
+                    }
+                });
+
+                try {
+                    // ส่งข้อมูลไปยัง Backend ผ่าน Fetch
+                    const response = await fetch('/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ 
+                            selectpt: selectpt,
+                            pattern1: pattern1,
+                            pattern2: pattern2,
+                            pattern3: pattern3,
+                            pattern4: pattern4,
+                            set: set,
+                            charity: charity,
+                            lot: lot,
+                            year: year
+                        })
+                    });                    
+
+                    if (!response.ok) {
+                        // อ่าน response กลับมาในรูปแบบ JSON
+                        const data = await response.json();
+                        console.log(data)
+                        throw new Error(data.message);
+                    } 
+
+                    // อ่านชื่อไฟล์จาก Header
+                    const filename = response.headers.get('X-Filename') || 'default_filename.xlsx';
+
+                    // อ่าน Response เป็น Blob
+                    const blob = await response.blob();
+
+                    // สร้าง URL ชั่วคราวสำหรับดาวน์โหลดไฟล์
+                    const url = window.URL.createObjectURL(blob);
+
+                    // สร้างลิงก์ดาวน์โหลด
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = filename; // ชื่อไฟล์
+                    document.body.appendChild(a);
+                    a.click();
+
+                    // ลบลิงก์หลังจากดาวน์โหลด
+                    a.remove();
+                    window.URL.revokeObjectURL(url);
+
+                    // แสดงข้อความสำเร็จใน SweetAlert
+                    Swal.fire('Success!', 'จัดสลาก L6 และ ดาวน์โหลดไฟล์ สำเร็จ', 'success');
+                                        
+                } catch (error) {
+                    // แสดงข้อความผิดพลาดใน SweetAlert
+                    Swal.fire('Error!', error.message, 'error');
+                }
+            } else {
+                Swal.fire('Cancelled', 'ยกเลิกการจัดสลาก', 'info');
             }
+
         });
     </script>
 
