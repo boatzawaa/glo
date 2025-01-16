@@ -26,10 +26,10 @@ def validateInputData(selectpt,patterns,set_value,charity,lot,year) :
         response = ['Error','จัดสลากไม่ถูกต้อง : กรุณาใส่"งวด"ที่จัดสลาก']
     elif vYear == '0':
         response = ['Error','จัดสลากไม่ถูกต้อง : กรุณาใส่"ปี"ที่จัดสลาก']     
-    elif selectpt == "2111": #เช็คทุก pattern ต้องไม่ซ้ำกัน
+    elif selectpt == '2111': #เช็คทุก pattern ต้องไม่ซ้ำกัน
         if (patterns[0] == patterns[1]) or (patterns[0] == patterns[2]) or (patterns[0] == patterns[3]) or (patterns[1] == patterns[2]) or (patterns[1] == patterns[3]) or (patterns[2] == patterns[3]):
             response = ['Error','จัดสลากไม่ถูกต้อง : มีรูปแบบการจัดสลากซ้ำกัน กรุณาแก้ไขให้ถูกต้อง']
-    else :
+    elif selectpt == '221':
         if (patterns[0] == patterns[1]) or (patterns[0] == patterns[2]) or (patterns[1] == patterns[2]):
             response = ['Error','จัดสลากไม่ถูกต้อง : มีรูปแบบการจัดสลากซ้ำกัน กรุณาแก้ไขให้ถูกต้อง']
     
@@ -291,6 +291,10 @@ def backendProcess(selectpt,patterns,set_value,charity,lot,year) :
                         if (numBook4 == maxBook9999) : #เช็คว่าเป็นเล่มสุดท้าย
                             numBook4 = startBook8000 #setค่าเริ่มต้นของเล่ม (8000)
                             numFinalSet += 1 #เปลี่ยน set เล่มที่ 5
+                            #print(arraySet)                     
+                            if (arraySet[numFinalSet-1] == (charitySet)) and (len(arrType) == 2) :
+                                numBook = 0
+                                arraySet = arraySet[2:] #จัดสลากชุดถัดไป
                         else :
                             numBook4 += 1 
                     num_progress_bar += 1
@@ -375,6 +379,10 @@ def backendProcess(selectpt,patterns,set_value,charity,lot,year) :
                         if (numBook3 == maxBook3999) : #เช็คว่าเป็นเล่มสุดท้าย
                             numBook3 = startBook1000 #setค่าเริ่มต้น 1000
                             numFinalSet += 1 #เปลี่ยน set เล่มที่ 5
+                            print(arraySet)                     
+                            if (arraySet[numFinalSet-1] == (charitySet)) and (len(arrType) == 2) :
+                                numBook = 0
+                                arraySet = arraySet[4:] #จัดสลากชุดถัดไป
                         else :
                             numBook3 += 1 
                     num_progress_bar += 1
@@ -414,6 +422,10 @@ def backendProcess(selectpt,patterns,set_value,charity,lot,year) :
                         if (numBook2 == maxBook9999) : #เช็คว่าเป็นเล่มสุดท้าย
                             numBook2 = startBook8000 #setค่าเริ่มต้น 8000
                             numFinalSet += 1 #เปลี่ยน set เล่มที่ 5
+                            print(arraySet)                     
+                            if (arraySet[numFinalSet-1] == (charitySet)) and (len(arrType) == 2) :
+                                numBook = 0
+                                arraySet = arraySet[4:] #จัดสลากชุดถัดไป
                         else :
                             numBook2 += 1
                     else :
@@ -458,16 +470,16 @@ def backendProcess(selectpt,patterns,set_value,charity,lot,year) :
     except FileNotFoundError as e:        
         # กรณีที่ไฟล์หรือไดเรกทอรีไม่พบ
         response = ['Error',f"File not found error: {e}"]
-        print(f"พบปัญหาในการเขียนไฟล์ : File not found error: {e}")
+        print(f"พบปัญหาในการจัดสลาก : File not found error: {e}")
 
     except IOError as e:
         # จับข้อผิดพลาด I/O (เช่น การเขียนไฟล์ไม่ได้)
-        response = ['Error',f"พบปัญหาในการเขียนไฟล์ : IO error: {e}"]
+        response = ['Error',f"พบปัญหาในการจัดสลาก : IO error: {e}"]
         print(f"IO error: {e}")
 
     except Exception as e:
         # ข้อผิดพลาดอื่น ๆ ที่ไม่ได้คาดไว้
-        response = ['Error',f"พบปัญหาในการเขียนไฟล์ : Unexpected error: {e}"]
+        response = ['Error',f"พบปัญหาในการจัดสลาก : Unexpected error: {e}"]
         print(f"Unexpected error: {e}")
     
     return response
