@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบการจัดสลาก L6</title>
+    <!-- SweetAlert2 CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        /* Spinner Overlay Style */
+        #loadingSpinner {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.7);
+            z-index: 1050;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <!-- ส่วนแบนเนอร์ -->
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="text-center">
+                    <!-- รูปภาพแบนเนอร์ -->
+                    <img src="/static/glo2.jpeg" alt="Banner" class="img-fluid rounded shadow">
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center mt-4 mb-4">
+            <div class="col-md-8">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="text-center mb-0">ระบบการจัดสลาก L6</h4>
+                    </div>
+                    <div class="card-body">
+                        <form id="dataForm" method="POST" >
+                            <!-- Other Inputs -->
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="set" class="form-label">จำนวนชุดของสลากทั้งหมด :</label>
+                                    <input type="number" id="set" name="set" class="form-control" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                        <label for="charity" class="form-label">จำนวนชุดของสลากการกุศล :</label>
+                                    <input type="number" id="charity" name="charity" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="lot" class="form-label">งวดที่ :</label>
+                                    <input type="number" id="lot" name="lot" class="form-control" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="year" class="form-label">ประจำปี :</label>
+                                    <input type="number" id="year" name="year" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <!-- Patterns -->
+                            <h4 class="text-center mb-0">เลือกรูปแบบการจัดสลาก</h4>
+                            <div class="mb-3">
+                                <label for="pattern1" class="form-label">รูปแบบที่ 1 :</label>
+                                <select id="pattern1" name="pattern1" class="form-select">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>  
+                            </div>
+                            <div class="mb-3">
+                                <label for="pattern2" class="form-label">รูปแบบที่ 2 :</label>
+                                <select id="pattern2" name="pattern2" class="form-select">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>  
+                            </div>
+                            <div class="mb-3">
+                                <label for="pattern3" class="form-label">รูปแบบที่ 3 :</label>
+                                <select id="pattern3" name="pattern3" class="form-select">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>  
+                            </div>
+                            <div class="mb-3">
+                                <label for="pattern4" class="form-label">รูปแบบที่ 4 :</label>
+                                <select id="pattern4" name="pattern4" class="form-select">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>  
+                            </div>                       
+
+                            <!-- Submit Button -->
+                            <div class="d-grid justify-content-center">
+                                <button type="submit" class="btn btn-primary btn-lg">จัดสลาก</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>        
+    </div>
+
+    <!-- Script ที่อ่านข้อมูล JSON -->
+    <script>
+        // รับข้อมูล JSON ที่ส่งมาจาก Flask ผ่านตัวแปร context
+        const data = {{ data | tojson }};
+        
+        // ใช้ข้อมูล JSON ใน Script
+        const outputDiv = document.getElementById('output');
+        outputDiv.innerHTML = `
+            <p>Name: ${data.name}</p>
+            <p>Age: ${data.age}</p>
+            <p>Skills: ${data.skills.join(', ')}</p>
+        `;
+    </script>
+
+    <!-- JavaScript -->
+    <script>
+        document.getElementById('dataForm').addEventListener('submit', async function(event) {
+            event.preventDefault(); // ป้องกันการ reload หน้าเว็บ
+
+            const spinner = document.getElementById('loadingSpinner');
+            const pattern1 = document.getElementById('pattern1').value;
+            const pattern2 = document.getElementById('pattern2').value;
+            const pattern3 = document.getElementById('pattern3').value;
+            const pattern4 = document.getElementById('pattern4').value;
+            const set = document.getElementById('set').value;
+            const charity = document.getElementById('charity').value;
+            const lot = document.getElementById('lot').value;
+            const year = document.getElementById('year').value;
+            
+            // แสดง SweetAlert2 พร้อม spinner
+            Swal.fire({
+                title: 'Processing...',
+                text: 'Please wait while we process your request.',
+                allowOutsideClick: false, // ป้องกันการปิดด้วยการคลิกรอบๆ
+                didOpen: () => {
+                    Swal.showLoading(); // แสดง loading spinner
+                }
+            });
+
+            try {
+                // ส่งข้อมูลไปยัง Flask ผ่าน Fetch API
+                const response = await fetch('/process', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ pattern1: pattern1,
+                        pattern2: pattern2,
+                        pattern3: pattern3,
+                        pattern4: pattern4,
+                        set: set,
+                        charity: charity,
+                        lot: lot,
+                        year: year
+                    })
+                });
+
+                // อ่าน response กลับมาในรูปแบบ JSON
+                const data = await response.json();
+                console.log(data)
+
+                // แสดงผลลัพธ์
+                // แสดง SweetAlert2
+                Swal.fire({
+                    title: data.status,
+                    text: data.message,
+                    icon: data.status.toLowerCase(),
+                    confirmButtonText: 'OK'
+                });
+
+            } catch (error) {
+                console.error('Error:', error);
+                Swal.fire({
+                    title: 'Error',
+                    text: error.message,
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            }
+        });
+    </script>
+
+    <!-- ลิงก์ไปยัง Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
