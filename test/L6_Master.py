@@ -8,61 +8,53 @@ section
 '''
 
 ############ เปลี่ยน config path ด้วย ############
-#dirExcel = 'D:/Boatproject/python-project/L6/'
-#dirExcel = '/home/boatzawa/'
+#configPath = 'D:/Boatproject/python-project/'##
 ###############################################
 
-def validateInputData(selectpt,patterns,set_value,charity,lot,year) :
-    response = []
-    sets = int(set_value)
-    charitySet = int(charity) #default charity set
-    vLotdateId = str(lot) #default vLotdateId
-    vYear = str(year) #default vYear
-    if sets == 0:
-        response = ['Error','จัดสลากไม่ถูกต้อง : กรุณาใส่"จำนวนชุด"ที่จัดสลาก']
-    elif charitySet > sets:
-        response = ['Error','จัดสลากไม่ถูกต้อง : จำนวนชุดของสลากการกุศล"เกิน"จำนวนชุดของสลากทั้งหมด']
-    elif vLotdateId == '0':
-        response = ['Error','จัดสลากไม่ถูกต้อง : กรุณาใส่"งวด"ที่จัดสลาก']
-    elif vYear == '0':
-        response = ['Error','จัดสลากไม่ถูกต้อง : กรุณาใส่"ปี"ที่จัดสลาก']     
-    elif selectpt == '2111': #เช็คทุก pattern ต้องไม่ซ้ำกัน
-        if (patterns[0] == patterns[1]) or (patterns[0] == patterns[2]) or (patterns[0] == patterns[3]) or (patterns[1] == patterns[2]) or (patterns[1] == patterns[3]) or (patterns[2] == patterns[3]):
-            response = ['Error','จัดสลากไม่ถูกต้อง : มีรูปแบบการจัดสลากซ้ำกัน กรุณาแก้ไขให้ถูกต้อง']
-    elif selectpt == '221':
-        if (patterns[0] == patterns[1]) or (patterns[0] == patterns[2]) or (patterns[1] == patterns[2]):
-            response = ['Error','จัดสลากไม่ถูกต้อง : มีรูปแบบการจัดสลากซ้ำกัน กรุณาแก้ไขให้ถูกต้อง']
+def program(patterns,set_value,charity,lot,year) :
     
-    if response == [] :
-        response = ['Success','Success']
-    
-    return response
+    #funtion progress bar #####################################################################
+    num_progress_bar = 0
+    def progress_bar(current, total, bar_length=50):
+        progress = int(bar_length * current / total)
+        bar = '#' * progress + '_' * (bar_length - progress)
+        print(f"\r|{bar}| {current}/{total}", end='', flush=True)
+    ###########################################################################################
 
-def backendProcess(selectpt,patterns,set_value,charity,lot,year) :
-    response = []
-    try:
-        numPattern = []
-        if selectpt == "2111":   
-            numPattern = [patterns[0],
-                            patterns[0],
-                            patterns[1],
-                            patterns[2],
-                            patterns[3]]
-        else :
-            numPattern = [patterns[0],
-                            patterns[0],
-                            patterns[1],
-                            patterns[1],
-                            patterns[2]]
-        sets = int(set_value)
-        charitySet = int(charity) #default charity set 
-        types = str('01') #default vTypes
-        charityType = str('02') #default charityType
-        vLotdateId = str(lot) #default vLotdateId
-        vYear = str(year) #default vYear
-                    
+    #funtion insert data ######################################################################  
+    def insertData(type,set,book,pattern) :    
+        vSet = str(arraySet[set]).zfill(2)
+        vBook = str(book).zfill(4)
+        vPattern = numPattern[pattern]
+        arr = [type, vYear, vLotdateId, vSet, vBook, vPattern]
+        return arr
+    ###########################################################################################    
+   
+    numPattern = [input("Pattern 1 : "),
+                        input("Pattern 2 : "),
+                        input("Pattern 3 : "),
+                        input("Pattern 4 : "),
+                        input("Pattern 5 : ")]
+    sets = int(input("จำนวนชุดทั้งหมด : "))
+    charitySet = int(input("แบ่งเป็นสลากการกุศลจำนวน : ")) #default charity set 
+    types = '01' #default vTypes
+    charityType = '02' #default charityType
+    vLotdateId = str(input("งวดที่' : ")) #default vLotdateId
+    vYear = str(input("ประจำปี : ")) #default vYear
+    #validate config
+    #เช็ค pattern 1 และ 2 ต้องตรงกัน
+    if numPattern[0] != numPattern[1]:
+        print('Error : กรุณาใส่ Pattern1 และ Pattern2 ให้ตรงกัน')
+    #เช็คทุก pattern ต้องไม่ซ้ำกัน ยกเว้น1และ2
+    elif (numPattern[2] == numPattern[4]) or (numPattern[3] == numPattern[4] or (numPattern[2] == numPattern[1]) or (numPattern[3] == numPattern[1]) or (numPattern[4] == numPattern[1])):
+        print('Error : มี Pattern ซ้ำ กรุณาแก้ไขให้ถูกต้อง')
+    else :
+        
         #set default ##############################################################################
-        #path = dirExcel #default path
+        path = 'D:/Boatproject/python-project/L6/' #default path   
+        vSet = '01' #default set
+        vBook = '0000' #default book
+        vPattern = '1' #default  pattern
         arrData = [['Types', 'Year','Lotdate_id','Set', 'Book' ,'Pattern']] #header excel
         arraySet = [] 
         arrType = []      
@@ -72,44 +64,30 @@ def backendProcess(selectpt,patterns,set_value,charity,lot,year) :
         #default จำนวนเล่มสูงสุด
         vlpBook = 10000 # จำนวนเล่มต่อ 1 ชุด 
         maxBook9999 = 9999
+        maxBook7999 = 7999
+        maxBook5999 = 5999
         maxBook4999 = 4999
         maxBook3999 = 3999
+        maxBook2999 = 2999
+        maxBook1999 = 1999
         maxBook999 = 999
         #default จำนวนเล่มเริ่มต้น
         startBook9000 = 9000
         startBook8000 = 8000
         startBook7000 = 7000
+        startBook6000 = 6000
         startBook5000 = 5000
         startBook4000 = 4000
+        startBook3000 = 3000
+        startBook2000 = 2000
         startBook1000 = 1000
         ###########################################################################################
         
         #เก็บข้อมูล set ลงใน array
         for i in range(sets):
             arraySet.append(i+1)
-            
-        #funtion progress bar #####################################################################
-        num_progress_bar = 0
-        def progress_bar(current, total, bar_length=50):
-            progress = int(bar_length * current / total)
-            bar = '#' * progress + '_' * (bar_length - progress)
-            print(f"\r|{bar}| {current}/{total}", end='', flush=True)
-        ###########################################################################################
 
-        #funtion insert data ######################################################################  
-        def insertData(type,set,book,pattern) :    
-            vSet = str(arraySet[set]).zfill(2)
-            vBook = str(book).zfill(4)
-            vPattern = numPattern[pattern]
-            arr = [type, vYear, vLotdateId, vSet, vBook, vPattern]
-            return arr
-        ###########################################################################################    
-
-        def lazy_range(n):
-            for i in range(n):
-                yield i  # คืนค่าทีละรายการ
-        
-        print('start process...')     
+        print('start process!!')     
         ####################### เช็คว่ามีสลากการกุศลหรือไม่ #######################
         set = sets
         if charitySet != 0 :
@@ -134,8 +112,7 @@ def backendProcess(selectpt,patterns,set_value,charity,lot,year) :
             ####################### เช็คเงื่อนไขเพื่อหาวิธีการจัดสลาก #######################  
             #เศษ 0
             if remainder == 0 : #25 set
-                #for i in range(loopBook) : # 250000 เล่ม   
-                for i in lazy_range(loopBook) :        
+                for i in range(loopBook) : # 250000 เล่ม            
                     if (pattern == 4): #เช็คว่าเป็นpatternสุดท้าย
                         arrData.append(insertData(vTypes,numSet,numBook,pattern))
                         numSet = 0
@@ -232,11 +209,7 @@ def backendProcess(selectpt,patterns,set_value,charity,lot,year) :
                         pattern = 0
                         if (numBook4 == maxBook9999) : #เช็คว่าเป็นเล่มสุดท้าย
                             numBook4 = startBook9000 #setค่าเริ่มต้น
-                            numFinalSet += 1 #เปลี่ยน set เล่มที่ 5  
-                            print(arraySet)                     
-                            if (arraySet[numFinalSet-1] == (charitySet)) and (len(arrType) == 2) :
-                                numBook = 0
-                                arraySet = arraySet[2:] #จัดสลากชุดถัดไป
+                            numFinalSet += 1 #เปลี่ยน set เล่มที่ 5
                         else :
                             numBook4 += 1
                     num_progress_bar += 1
@@ -296,10 +269,6 @@ def backendProcess(selectpt,patterns,set_value,charity,lot,year) :
                         if (numBook4 == maxBook9999) : #เช็คว่าเป็นเล่มสุดท้าย
                             numBook4 = startBook8000 #setค่าเริ่มต้นของเล่ม (8000)
                             numFinalSet += 1 #เปลี่ยน set เล่มที่ 5
-                            #print(arraySet)                     
-                            if (arraySet[numFinalSet-1] == (charitySet)) and (len(arrType) == 2) :
-                                numBook = 0
-                                arraySet = arraySet[2:] #จัดสลากชุดถัดไป
                         else :
                             numBook4 += 1 
                     num_progress_bar += 1
@@ -384,10 +353,6 @@ def backendProcess(selectpt,patterns,set_value,charity,lot,year) :
                         if (numBook3 == maxBook3999) : #เช็คว่าเป็นเล่มสุดท้าย
                             numBook3 = startBook1000 #setค่าเริ่มต้น 1000
                             numFinalSet += 1 #เปลี่ยน set เล่มที่ 5
-                            print(arraySet)                     
-                            if (arraySet[numFinalSet-1] == (charitySet)) and (len(arrType) == 2) :
-                                numBook = 0
-                                arraySet = arraySet[4:] #จัดสลากชุดถัดไป
                         else :
                             numBook3 += 1 
                     num_progress_bar += 1
@@ -427,10 +392,6 @@ def backendProcess(selectpt,patterns,set_value,charity,lot,year) :
                         if (numBook2 == maxBook9999) : #เช็คว่าเป็นเล่มสุดท้าย
                             numBook2 = startBook8000 #setค่าเริ่มต้น 8000
                             numFinalSet += 1 #เปลี่ยน set เล่มที่ 5
-                            print(arraySet)                     
-                            if (arraySet[numFinalSet-1] == (charitySet)) and (len(arrType) == 2) :
-                                numBook = 0
-                                arraySet = arraySet[4:] #จัดสลากชุดถัดไป
                         else :
                             numBook2 += 1
                     else :
@@ -440,53 +401,11 @@ def backendProcess(selectpt,patterns,set_value,charity,lot,year) :
                     num_progress_bar += 1
                     progress_bar(num_progress_bar, sets*vlpBook)
                 
-        #generate excel file
-        print('\ngenerate file . . .')  
-        response = ['Success',arrData, f'L6_{set+charitySet}k.xlsx']
-        
-        '''
-        #สำหรับ write file ลง เครื่อง
-        try:        
-            wb =Workbook()
-            ws = wb.active
-            for row in arrData :
-                ws.append(row)
-            wb.save(f'{path}L6_{set+charitySet}k.xlsx')
-            response = ['Success',f'ระบบจัดสลากให้ท่านสำเร็จแล้ว! : ที่อยู่ของไฟล์ : {path}L6_{set+charitySet}k.xlsx']
-            print("File written successfully!")
-
-        except FileNotFoundError as e:
-            # กรณีที่ไฟล์หรือไดเรกทอรีไม่พบ
-            response = ['Error',f"File not found error: {e}"]
-            print(f"พบปัญหาในการเขียนไฟล์ : File not found error: {e}")
-
-        except IOError as e:
-            # จับข้อผิดพลาด I/O (เช่น การเขียนไฟล์ไม่ได้)
-            response = ['Error',f"พบปัญหาในการเขียนไฟล์ : IO error: {e}"]
-            print(f"IO error: {e}")
-
-        except Exception as e:
-            # ข้อผิดพลาดอื่น ๆ ที่ไม่ได้คาดไว้
-            response = ['Error',f"พบปัญหาในการเขียนไฟล์ : Unexpected error: {e}"]
-            print(f"Unexpected error: {e}")  
-        '''           
-            
-        return response
-    except FileNotFoundError as e:        
-        # กรณีที่ไฟล์หรือไดเรกทอรีไม่พบ
-        response = ['Error',f"File not found error: {e}"]
-        print(f"พบปัญหาในการจัดสลาก : File not found error: {e}")
-
-    except IOError as e:
-        # จับข้อผิดพลาด I/O (เช่น การเขียนไฟล์ไม่ได้)
-        response = ['Error',f"พบปัญหาในการจัดสลาก : IO error: {e}"]
-        print(f"IO error: {e}")
-
-    except Exception as e:
-        # ข้อผิดพลาดอื่น ๆ ที่ไม่ได้คาดไว้
-        response = ['Error',f"พบปัญหาในการจัดสลาก : Unexpected error: {e}"]
-        print(f"Unexpected error: {e}")
-    
-    return response
-     
-    
+        #write excel file
+        print('\nwrite data . . .')               
+        wb =Workbook()
+        ws = wb.active
+        for row in arrData :
+            ws.append(row)
+        wb.save(path+'L6_'+str(set+charitySet)+'k.xlsx')
+        print('Done!')
