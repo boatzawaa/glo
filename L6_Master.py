@@ -150,7 +150,7 @@ def backendProcess(selectpt,patterns,set_value,charity,lot,year) :
                         pattern += 1
                         numSet += 1
                     num_progress_bar += 1
-                    progress_bar(num_progress_bar, sets*vlpBook)                  
+                    #progress_bar(num_progress_bar, sets*vlpBook)                  
                                                     
             #เศษ 1                
             elif remainder == 1 : #21 set
@@ -177,7 +177,7 @@ def backendProcess(selectpt,patterns,set_value,charity,lot,year) :
                         pattern += 1
                         numSet += 1
                     num_progress_bar += 1
-                    progress_bar(num_progress_bar, sets*vlpBook)
+                    #progress_barnum_progress_bar, sets*vlpBook)
                             
                 #step2 จัดสลาก lot 2 เช่น ถ้าใส่ชุด 21 ชุด จะจัดสลากที่15ชุดแรกแล้ว จัดอีก5ชุดหลังต่อ
                 numSet = 0 #คุมชุด
@@ -200,7 +200,7 @@ def backendProcess(selectpt,patterns,set_value,charity,lot,year) :
                         pattern += 1
                         numSet += 1
                     num_progress_bar += 1
-                    progress_bar(num_progress_bar, sets*vlpBook)     
+                    #progress_barnum_progress_bar, sets*vlpBook)     
                 
                 #step3 จัดสลากชุดที่เหลือ
                 numSet = 0
@@ -240,7 +240,7 @@ def backendProcess(selectpt,patterns,set_value,charity,lot,year) :
                         else :
                             numBook4 += 1
                     num_progress_bar += 1
-                    progress_bar(num_progress_bar, sets*vlpBook)   
+                    #progress_barnum_progress_bar, sets*vlpBook)   
                             
             #เศษ 2
             elif remainder == 2 : #22 set
@@ -264,7 +264,7 @@ def backendProcess(selectpt,patterns,set_value,charity,lot,year) :
                         pattern += 1
                         numSet += 1  
                     num_progress_bar += 1
-                    progress_bar(num_progress_bar, sets*vlpBook)
+                    #progress_barnum_progress_bar, sets*vlpBook)
                 
                 #step2 จัดสลากชุดที่เหลืออีก 2 ชุด
                 numSet = 0
@@ -303,7 +303,7 @@ def backendProcess(selectpt,patterns,set_value,charity,lot,year) :
                         else :
                             numBook4 += 1 
                     num_progress_bar += 1
-                    progress_bar(num_progress_bar, sets*vlpBook)
+                    #progress_barnum_progress_bar, sets*vlpBook)
                     
             #เศษ 3   
             elif remainder == 3 : #23 set
@@ -329,7 +329,7 @@ def backendProcess(selectpt,patterns,set_value,charity,lot,year) :
                         pattern += 1
                         numSet += 1
                     num_progress_bar += 1
-                    progress_bar(num_progress_bar, sets*vlpBook)
+                    #progress_barnum_progress_bar, sets*vlpBook)
                             
                 #step2 จัดสลาก lot 2 เช่น ถ้าใส่ชุด 23 ชุด จะจัดสลากที่ 15 ชุดแรกแล้ว จัดอีก 5 ชุดหลังต่อ
                 numSet = 0
@@ -352,7 +352,7 @@ def backendProcess(selectpt,patterns,set_value,charity,lot,year) :
                         pattern += 1
                         numSet += 1
                     num_progress_bar += 1
-                    progress_bar(num_progress_bar, sets*vlpBook)            
+                    #progress_barnum_progress_bar, sets*vlpBook)            
                 
                 #step3 จัดสลากชุดที่เหลือ
                 numSet = 0
@@ -391,7 +391,7 @@ def backendProcess(selectpt,patterns,set_value,charity,lot,year) :
                         else :
                             numBook3 += 1 
                     num_progress_bar += 1
-                    progress_bar(num_progress_bar, sets*vlpBook)
+                    #progress_barnum_progress_bar, sets*vlpBook)
                     
             #เศษ 4                
             elif remainder == 4 : #24 set
@@ -414,7 +414,7 @@ def backendProcess(selectpt,patterns,set_value,charity,lot,year) :
                         pattern += 1
                         numSet += 1 
                     num_progress_bar += 1
-                    progress_bar(num_progress_bar, sets*vlpBook)                        
+                    #progress_barnum_progress_bar, sets*vlpBook)                        
                 
                 #step2 จัดสลากชุดที่เหลืออีก 4 ชุด
                 numFinalSet = 0 #ค่าเริ่มต้นเพื่อเพิ่มชุดสุดท้าย pattern 5    
@@ -438,7 +438,7 @@ def backendProcess(selectpt,patterns,set_value,charity,lot,year) :
                         pattern += 1
                         numSet += 1
                     num_progress_bar += 1
-                    progress_bar(num_progress_bar, sets*vlpBook)
+                    #progress_barnum_progress_bar, sets*vlpBook)
                 
         #generate excel file
         print('\ngenerate file . . .')  
