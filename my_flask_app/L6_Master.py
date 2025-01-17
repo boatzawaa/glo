@@ -105,6 +105,10 @@ def backendProcess(selectpt,patterns,set_value,charity,lot,year) :
             return arr
         ###########################################################################################    
 
+        def lazy_range(n):
+            for i in range(n):
+                yield i  # คืนค่าทีละรายการ
+        
         print('start process...')     
         ####################### เช็คว่ามีสลากการกุศลหรือไม่ #######################
         set = sets
@@ -130,7 +134,8 @@ def backendProcess(selectpt,patterns,set_value,charity,lot,year) :
             ####################### เช็คเงื่อนไขเพื่อหาวิธีการจัดสลาก #######################  
             #เศษ 0
             if remainder == 0 : #25 set
-                for i in range(loopBook) : # 250000 เล่ม            
+                #for i in range(loopBook) : # 250000 เล่ม   
+                for i in lazy_range(loopBook) :        
                     if (pattern == 4): #เช็คว่าเป็นpatternสุดท้าย
                         arrData.append(insertData(vTypes,numSet,numBook,pattern))
                         numSet = 0
